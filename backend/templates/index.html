@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ app_name|default('App') }}</title>
+</head>
+<body>
+    <div id="root"></div>
+    {% if debug %}
+        <script type="module">
+            import RefreshRuntime from 'http://localhost:3000/@react-refresh'
+            RefreshRuntime.injectIntoGlobalHook(window)
+            window.$RefreshReg$ = () => {}
+            window.$RefreshSig$ = () => (type) => type
+            window.__vite_plugin_react_preamble_installed__ = true
+        </script>
+        <script type="module" src="http://localhost:3000/src/{{ app_name }}/main.jsx"></script>
+    {% else %}
+        <script type="module" src="{{ url_for('build', filename=asset_path) }}"></script>
+    {% endif %}
+</body>
+</html>
