@@ -4,8 +4,14 @@
     <title>{{ app_name|default('App') }}</title>
 </head>
 <body>
+    <!-- Root div where React will mount the application -->
     <div id="root"></div>
+
+    <!-- Conditional rendering based on debug mode -->
     {% if debug %}
+        <!-- Import React Refresh Runtime for hot module replacement
+        This allows for real-time updates during development
+        without full page refreshes  -->
         <script type="module">
             import RefreshRuntime from 'http://localhost:3000/@react-refresh'
             RefreshRuntime.injectIntoGlobalHook(window)
@@ -13,8 +19,16 @@
             window.$RefreshSig$ = () => (type) => type
             window.__vite_plugin_react_preamble_installed__ = true
         </script>
+
+        <!-- Import the main React entry point in development mode
+        Uses Vite's development server at port 3000
+        Dynamic path based on app_name variable from Flask -->
         <script type="module" src="http://localhost:3000/src/{{ app_name }}/main.jsx"></script>
     {% else %}
+
+        <!-- Import the built and bundled JavaScript file
+        Uses Flask's url_for helper to generate the correct URL
+        asset_path is set in app.py -->
         <script type="module" src="{{ url_for('build', filename=asset_path) }}"></script>
     {% endif %}
 </body>
