@@ -36,7 +36,9 @@ app = Flask(
 )
 
 dotenv.load_dotenv()
-app.secret_key = os.environ['APP_SECRET_KEY']
+app.secret_key = os.environ["APP_SECRET_KEY"]
+
+auth.init_auth(app)
 
 
 # Add custom URL rule to serve React files from the build directory
@@ -92,7 +94,6 @@ def protected():
     return render_template(
         "index.html", app_name="protected", debug=app.debug, asset_path=asset_path
     )
-
 
 # -----------------------------------------------------------------------
 

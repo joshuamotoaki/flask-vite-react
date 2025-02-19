@@ -10,13 +10,12 @@ import re
 import json
 import flask
 
-from app import app
-
 # -----------------------------------------------------------------------
 
 _CAS_URL = "https://fed.princeton.edu/cas/"
 
 # -----------------------------------------------------------------------
+
 
 # Return url after stripping out the "ticket" parameter that was
 # added by the CAS server.
@@ -29,6 +28,7 @@ def strip_ticket(url):
 
 
 # -----------------------------------------------------------------------
+
 
 # Validate a login ticket by contacting the CAS server. If
 # valid, return the user's user_info; otherwise, return None.
@@ -63,6 +63,7 @@ def validate(ticket):
 
 
 # -----------------------------------------------------------------------
+
 
 # Authenticate the user, and return the user's info.
 # Do not return unless the user is successfully authenticated.
@@ -108,12 +109,18 @@ def is_authenticated():
 # -----------------------------------------------------------------------
 
 
-@app.route("/api/logoutcas", methods=["GET"])
-def logoutcas():
-    # Log out of the CAS session, and then the application.
-    logout_url = (
-        _CAS_URL
-        + "logout?service="
-        + urllib.parse.quote(re.sub("logoutcas", "logoutapp", flask.request.url))
-    )
-    flask.abort(flask.redirect(logout_url))
+def init_auth(app):
+
+    @app.route("/api/logoutcas", methods=["GET"])
+    def logoutcas():
+        logout_url = (
+            _CAS_URL
+            + "logout?service="
+            + urllib.parse.quote(re.sub("logoutcas", "logoutapp", flask.request.url))
+        )
+        flask.abort(flask.redirect(logout_url))
+
+    @app.route("/api/logoutapp", methods=["GET"])
+    def logoutapp():
+        flask.session.clear()
+        return flask.redirect("/")
