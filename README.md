@@ -16,3 +16,19 @@ The [`index.html`](backend/templates/index.html) file is the entry point for the
 6. Start the frontend `cd frontend && npm run dev`
 7. Start the backend `cd backend && python app.py`
 8. Open the browser and go to `http://localhost:8000`
+
+## Building for Production
+
+To build the frontend for production, run the following command in the `frontend` folder:
+
+```bash
+npm run build
+```
+
+You should notice that the frontend files are now in the `backend/build` folder. To run the Flask server in production mode, run the following command in the `backend` folder:
+
+```bash
+python app.py --production
+```
+
+In reality, you would want to serve the Flask app using a production-ready server like Gunicorn.
