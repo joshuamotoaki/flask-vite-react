@@ -30,7 +30,7 @@ export default defineConfig({
     proxy: {
       // Forward all /api requests to the Flask backend
       "/api": {
-        target: "http://localhost:5000",  // Flask server address
+        target: "http://localhost:8000",  // Flask server address
         changeOrigin: true,  // Changes the origin of the request to match the target URL
       },
     },
