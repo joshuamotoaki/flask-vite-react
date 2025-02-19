@@ -96,7 +96,8 @@ def authenticate():
     # The user is authenticated, so store the user_info in
     # the session and return the username.
     flask.session["user_info"] = user_info
-    return user_info["user"]
+    clean_url = strip_ticket(flask.request.url)
+    flask.abort(flask.redirect(clean_url))
 
 
 # -----------------------------------------------------------------------
