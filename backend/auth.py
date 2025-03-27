@@ -43,10 +43,14 @@ def validate(ticket):
         + urllib.parse.quote(ticket)
         + "&format=json"
     )
+
+    # During local development in debug mode, don't verify the SSL certificate.
     if flask.current_app.debug:
         context = ssl._create_unverified_context()
         with urllib.request.urlopen(val_url, context=context) as flo:
             result = json.loads(flo.read().decode("utf-8"))
+
+    # In production, verify the SSL certificate.
     else:
         with urllib.request.urlopen(val_url) as flo:
             result = json.loads(flo.read().decode("utf-8"))
