@@ -9,6 +9,7 @@ import urllib.parse
 import re
 import json
 import flask
+import ssl
 
 # -----------------------------------------------------------------------
 
@@ -42,8 +43,13 @@ def validate(ticket):
         + urllib.parse.quote(ticket)
         + "&format=json"
     )
-    with urllib.request.urlopen(val_url) as flo:
-        result = json.loads(flo.read().decode("utf-8"))
+    if flask.current_app.debug:
+        context = ssl._create_unverified_context()
+        with urllib.request.urlopen(val_url, context=context) as flo:
+            result = json.loads(flo.read().decode("utf-8"))
+    else:
+        with urllib.request.urlopen(val_url) as flo:
+            result = json.loads(flo.read().decode("utf-8"))
 
     if (not result) or ("serviceResponse" not in result):
         return None
