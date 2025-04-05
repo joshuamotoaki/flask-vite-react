@@ -95,6 +95,14 @@ def protected():
         "index.html", app_name="protected", debug=app.debug, asset_path=asset_path
     )
 
+# Catch all for static assets
+@app.route("/<path:path>")
+def static_proxy(path):
+    """
+    Serve static files from the build directory
+    """
+    return send_from_directory("build", path)
+
 # -----------------------------------------------------------------------
 
 
