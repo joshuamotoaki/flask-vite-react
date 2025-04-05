@@ -101,6 +101,6 @@ def protected():
 if __name__ == "__main__":
     args = parser.parse_args()
     app.debug = not args.production
-    if os.environ.get("FLASK_ENV") == "production":
+    if os.environ.get("FLASK_ENV") == "production" or os.environ.get("FLASK_ENV") == "prod":
         app.debug = False
     app.run(host="0.0.0.0", port=8000)
