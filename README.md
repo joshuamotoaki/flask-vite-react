@@ -39,7 +39,7 @@ In reality, you would want to serve the Flask app using a production-ready serve
 ## Deployment
 In Render, the setup command is:
 ```bash
-pip install -r requirements.txt && cd frontend && npm run build && cd ../
+pip install -r requirements.txt && cd frontend && npm install && npm run build && cd ../
 ```
 
 Make sure to set env variables:
