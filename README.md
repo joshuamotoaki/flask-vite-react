@@ -35,3 +35,21 @@ python app.py --production
 ```
 
 In reality, you would want to serve the Flask app using a production-ready server like Gunicorn.
+
+## Deployment
+In Render, the setup command is:
+```bash
+pip install -r requirements.txt && cd frontend && npm run build && cd ../
+```
+
+Make sure to set env variables:
+```
+APP_SECRET_KEY=[your secret key] # Change this to a random string
+FLASK_ENV=prod  # This needs to be set to prod for production
+```
+
+
+Then, the start command is:
+```bash
+cd backend && gunicorn app:app
+```
